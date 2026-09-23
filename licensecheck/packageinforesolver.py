@@ -182,9 +182,11 @@ class RemotePackageInfo:
 	def lazy_fetch(self) -> None:
 		if self.resp is None:
 			# Attempt to get versioned info first
-			rc, raw_resp = self.make_req(
-				url=f"{self.pypi_api_pypi}{self.package.name}/{self.package.version}/json"
-			)
+			rc, raw_resp = -1, {}
+			if self.package.version is not None:
+				rc, raw_resp = self.make_req(
+					url=f"{self.pypi_api_pypi}{self.package.name}/{self.package.version}/json"
+				)
 			# Otherwise just get the latest
 			if rc != HTTP_OK:
 				rc, raw_resp = self.make_req(url=f"{self.pypi_api_pypi}/{self.package.name}/json")
