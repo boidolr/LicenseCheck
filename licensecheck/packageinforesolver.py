@@ -7,6 +7,7 @@ import contextlib
 import re
 from concurrent.futures import ThreadPoolExecutor
 from email.message import Message
+from functools import lru_cache
 from importlib import metadata
 from importlib.metadata._meta import PackageMetadata
 from pathlib import Path
@@ -113,6 +114,7 @@ class PackageInfoManager:
 		return pkg_info
 
 
+@lru_cache(maxsize=128)
 def normalize_license(lice: str) -> str:
 	licensing = Licensing()
 	parsed = None
